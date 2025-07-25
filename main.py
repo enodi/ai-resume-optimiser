@@ -4,10 +4,10 @@ from pypdf import PdfReader
 import os
 
 # load_dotenv(override=True)
-openai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+# client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 class ResumeOptimiser:
   def __init__(self):
-    self.openai = OpenAI()
+    self.openai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
   def system_prompt(self):
     return """
