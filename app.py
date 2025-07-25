@@ -1,3 +1,7 @@
+import os
+os.environ["STREAMLIT_RUNTIME_DIR"] = "/tmp/.streamlit"
+os.makedirs("/tmp/.streamlit", exist_ok=True)
+
 import streamlit as st
 from main import ResumeOptimiser, extract_text_from_pdf
 
