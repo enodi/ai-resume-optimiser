@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from pypdf import PdfReader
 import os
-from tempfile import NamedTemporaryFile
 
 load_dotenv(override=True)
 class ResumeOptimiser:
@@ -51,15 +50,9 @@ class ResumeOptimiser:
     return response.choices[0].message.content
 
 def extract_text_from_pdf(uploaded_file):
-  with NamedTemporaryFile(dir=".", suffix=".pdf", delete=False) as tmp:
-    tmp.write(uploaded_file.getbuffer())
-    tmp_path = tmp.name
-  
-  reader = PdfReader(tmp_path)
+  reader = PdfReader(uploaded_file)
   text = ""
   for page in reader.pages:
-      text += page.extract_text() or ""
-
-  os.remove(tmp_path)
+    text += page.extract_text() or ""
   return text
 

@@ -1,9 +1,5 @@
 import os
 
-# Ensure Streamlit doesn't try to write to root dir
-os.environ["HOME"] = "/app"
-os.environ["HF_HOME"] = "/app/huggingface"
-
 import streamlit as st
 from main import ResumeOptimiser, extract_text_from_pdf
 
