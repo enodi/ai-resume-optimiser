@@ -3,7 +3,9 @@ FROM python:3.10-slim
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV STREAMLIT_RUNTIME_DIR=/tmp/.streamlit
+ENV HOME=/app
+ENV STREAMLIT_HOME=/app/.streamlit
+ENV HF_HOME=/app/huggingface
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -13,18 +15,21 @@ RUN apt-get update && apt-get install -y \
   python3-dev \
   && rm -rf /var/lib/apt/lists/*
 
-# Set work directory
+# Set working directory
 WORKDIR /app
 
-# Install Python dependencies
+# Create necessary directories
+RUN mkdir -p /app/.streamlit /app/huggingface
+
+# Copy and install dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Copy app files
+# Copy all files
 COPY . .
 
-# Expose port for Streamlit
+# Expose Streamlit port
 EXPOSE 7860
 
 # Run the app

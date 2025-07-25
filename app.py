@@ -1,6 +1,8 @@
 import os
-os.environ["STREAMLIT_RUNTIME_DIR"] = "/tmp/.streamlit"
-os.makedirs("/tmp/.streamlit", exist_ok=True)
+
+# Ensure Streamlit doesn't try to write to root dir
+os.environ["HOME"] = "/app"
+os.environ["HF_HOME"] = "/app/huggingface"
 
 import streamlit as st
 from main import ResumeOptimiser, extract_text_from_pdf
@@ -14,8 +16,8 @@ if st.button("Generate Optimised Resume"):
   if resume_file and job_description:
     with st.spinner("Analysing and optimising your resume..."):
       resume_text = extract_text_from_pdf(resume_file)
-      analyser = ResumeOptimiser()
-      optimised_resume = analyser.generate_updated_resume(resume_text, job_description)
+      optimiser = ResumeOptimiser()
+      optimised_resume = optimiser.generate_updated_resume(resume_text, job_description)
       st.success("Optimised Resume Generated")
       st.text_area("Updated Resume", optimised_resume, height=400)
   else:
