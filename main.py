@@ -3,11 +3,13 @@ from openai import OpenAI
 from pypdf import PdfReader
 import os
 
-# load_dotenv(override=True)
-# client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+load_dotenv(override=True)
 class ResumeOptimiser:
   def __init__(self):
-    self.openai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY is not set in environment variables.")
+    self.openai = OpenAI(api_key=api_key)
 
   def system_prompt(self):
     return """
